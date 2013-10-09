@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="content_color">#000000</color>
+    <color name="header_bg_color">#FF8000</color>
+    <color name="header_font_color">#ffffff</color>
+    <color name="main_bg">#ffffff</color>
+    
+</resources>

@@ -73,6 +73,7 @@ public class AddSkipNumberActivity extends BaseActivity implements OnClickListen
 		if(mDbHelper.insertSkipNumber(number)){
 			message = "Succssfully number added to skip list";
 			mSkipNumbersList.add(number);
+			mAddNumberET.setText("");
 			if(mAdapter!=null){
 				mAdapter.notifyDataSetChanged();
 			}

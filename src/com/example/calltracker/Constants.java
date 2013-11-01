@@ -24,4 +24,6 @@ public class Constants {
 	//date and time patterns
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
 	public static final String CALL_DATE_FORMAT = "dd/MM/yyyy hh:mm:ss a";
+	
+
 }

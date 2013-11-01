@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.calltracker.CallInfo;
 import com.example.calltracker.CallListDetails;
 import com.example.calltracker.Constants;
+import com.example.calltracker.SkipNumberBean;
 
 
 public class CallListDBHelper extends SQLiteOpenHelper{
@@ -19,8 +20,8 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 	public CallListDBHelper(Context context) {
 		super(context, Constants.DB_NAME, null, Constants.DB_VERSION);
 	}
-	
-	
+
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		String query;
@@ -30,14 +31,23 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 				CallListTable.duration+" INTEGER NOT NULL,"+
 				CallListTable.date+" INTEGER NOT NULL"+
 				")";
+
+		String skipTableQuery;
+		skipTableQuery = "CREATE TABLE "+SkipNumberListTable.TABLE_NAME+ "( "+
+				SkipNumberListTable.number+" TEXT NOT NULL "+
+				")";
 		db.execSQL(query);
+		db.execSQL(skipTableQuery);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		//backup old data before upgrate
-		db.execSQL("create table "+CallListTable.TABLE_NAME+"_"+oldVersion+" as select "+ CallListTable.callId+","+CallListTable.phoneNumber+","+CallListTable.duration+","+CallListTable.date +"from "+CallListTable.TABLE_NAME);
+		db.execSQL("create table "+CallListTable.TABLE_NAME+"_"+oldVersion+" as select "+ CallListTable.callId+","+CallListTable.phoneNumber+","+CallListTable.duration+","+CallListTable.date +" from "+CallListTable.TABLE_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + CallListTable.TABLE_NAME);
+
+		db.execSQL("create table "+SkipNumberListTable.TABLE_NAME+"_"+oldVersion+" as select "+ SkipNumberListTable.number +" from "+SkipNumberListTable.TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + SkipNumberListTable.TABLE_NAME);
 		onCreate(db);
 	}
 
@@ -133,6 +143,8 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 							"(("+CallListTable.phoneNumber+" LIKE \"09%\" OR "+CallListTable.phoneNumber+" LIKE \"08%\" OR "+CallListTable.phoneNumber+" LIKE \"07%\") AND length("+CallListTable.phoneNumber+") = 11 ) OR "+
 							"(("+CallListTable.phoneNumber+" LIKE \"9%\" OR "+CallListTable.phoneNumber+" LIKE \"8%\" OR "+CallListTable.phoneNumber+" LIKE \"7%\") AND length("+CallListTable.phoneNumber+") = 10 ) "+
 							" ) ";
+
+					listTypeStr = appendSkipNumbersQuery(listTypeStr);
 					break;
 				case Constants.EXCLUDE_ABOVE_2_AND_3:
 					listTypeStr = " AND NOT ( "+CallListTable.phoneNumber+" LIKE \"+9140%\" OR "+
@@ -146,7 +158,8 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 							" ) ";;
 							break;
 				case Constants.ALL:
-					listTypeStr = null;
+					listTypeStr = "";
+					listTypeStr = appendSkipNumbersQuery(listTypeStr);
 					break;	
 				default:
 					break;
@@ -194,6 +207,32 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 
 		return listDetails;
 	}
+	
+	private String appendSkipNumbersQuery(String query){
+		ArrayList<String> skipNumberList = getSkipNumberList(false);
+		if(skipNumberList!=null && skipNumberList.size()>0){
+			StringBuilder skipNumberQuery = new StringBuilder(" AND ( ");
+			for(int i=0;i<skipNumberList.size();i++){
+				String number  = skipNumberList.get(i);
+				if(i==0){
+					//add the "not in" condition at the first item
+					skipNumberQuery.append(CallListTable.phoneNumber+" not in ( ");
+					skipNumberQuery.append("\"+91"+number+"\",\"91"+number+"\" , \"0"+number+"\", \""+number+"\"");
+				}else{
+					skipNumberQuery.append(",\"+91"+number+"\",\"91"+number+"\" , \"0"+number+"\", \""+number+"\"");
+				}
+				//close the braces of the "not in" condition at last item
+				if(i==skipNumberList.size()-1){
+					skipNumberQuery.append(")");
+				}
+			}
+			//close the braces of "AND" condition
+			skipNumberQuery.append(")");
+			//append the skipnumberquery to final query
+			query+=skipNumberQuery.toString();
+		}
+		return query;
+	}
 
 	public String getMaxIdOfCallLogs(SQLiteDatabase db){
 		//get the max id from the table
@@ -227,4 +266,75 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 		}
 	}
 
+	/**Insert skip number in db*/
+	public boolean insertSkipNumber(String number) {
+		boolean insertStatus = false;
+		SQLiteDatabase db = this.getWritableDatabase();
+		try{
+			ContentValues values = new ContentValues();
+			values.put(SkipNumberListTable.number, number); 
+			// Inserting Row
+			long rowId = db.insert(SkipNumberListTable.TABLE_NAME, null, values);
+			if(rowId>-1){
+				insertStatus = true;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return insertStatus;
+		}finally{
+			closeDatabase(db);
+		}
+		return insertStatus;
+	}
+
+	/**fetch the skip number list from db*/
+	public ArrayList<String> getSkipNumberList(boolean shouldCloseDb){
+		SQLiteDatabase db = this.getWritableDatabase();
+		ArrayList<String> numbersList = new ArrayList<String>();
+		try{
+			Cursor cursor = null;
+			try{
+
+				cursor = db.query(SkipNumberListTable.TABLE_NAME, null, null, null, null, null, null);
+				int number = cursor.getColumnIndex(SkipNumberListTable.number);
+
+				// looping through all rows and adding to list
+				if (cursor!=null && cursor.moveToFirst()) {
+					do {
+						numbersList.add(cursor.getString(number));
+					} while (cursor.moveToNext());
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				if(cursor!=null){
+					cursor.close();
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			if(shouldCloseDb)
+				closeDatabase(db);
+		}
+		return numbersList;
+	}
+	/**Delete the number from {@link SkipNumberListTable} table*/
+	public boolean deleteSkipNumber(String number){
+		boolean deleteStatus = false;
+		SQLiteDatabase db = this.getWritableDatabase();
+		try{
+			
+			int rowsDeleted = db.delete(SkipNumberListTable.TABLE_NAME, SkipNumberListTable.number+ " LIKE "+number,null);
+			if(rowsDeleted>0){
+				deleteStatus = true;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return deleteStatus;
+		}finally{
+			closeDatabase(db);
+		}
+		return deleteStatus;
+	}
 }

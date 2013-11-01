@@ -39,6 +39,17 @@ public class Util {
     }
     
     /**
+     * Remove key/value pair from SharedPreference for the given key
+     */
+    public static void deleteStringInSP(Context context, String key) {
+        SharedPreferences preferences = context.getSharedPreferences(
+                SHARED_PREFERENCES_NAME, android.content.Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove(key);
+        editor.commit();
+    }
+    
+    /**
      * Retrieve integer value from SharedPreference for the given key
      */
     public static int getIntFromSP(Context _activity, String key) {

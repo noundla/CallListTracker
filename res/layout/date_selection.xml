@@ -11,17 +11,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="@color/header_bg_color"
-        android:padding="10dp" >
+        android:background="@color/header_bg_color" >
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:text="Date and List Type Selection"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/header_font_color"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/settingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/settings" />
     </FrameLayout>
 
     <ScrollView

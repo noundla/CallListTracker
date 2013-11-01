@@ -16,7 +16,7 @@ import android.widget.RadioButton;
 
 import com.example.calltracker.DateDialogFragment.OnDateSetListener;
 
-public class DateSelectionActivity extends FragmentActivity implements OnClickListener{
+public class DateSelectionActivity extends BaseActivity implements OnClickListener{
 	public static final String EXTRA_START_DATE_IN_MILLIS="EXTRA_START_DATE";
 	public static final String EXTRA_END_DATE_IN_MILLIS="EXTRA_END_DATE";
 	public static final String EXTRA_SELECTED_LIST_TYPE="EXTRA_SELECTED_LIST_TYPE";
@@ -45,6 +45,7 @@ public class DateSelectionActivity extends FragmentActivity implements OnClickLi
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.date_selection);
 		mActivity = this;
+		setSettingsButton();
 		
 		mStartDateEt = (EditText)findViewById(R.id.startDateET);
 		mStartDateEt.setOnClickListener(this);

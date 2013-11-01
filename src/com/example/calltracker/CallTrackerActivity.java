@@ -19,7 +19,7 @@ import com.example.calltracker.db.CallListDBHelper;
 import com.example.calltracker.task.GetCallListTask;
 import com.example.calltracker.task.InsertCalllListTask;
 
-public class CallTrackerActivity extends Activity {
+public class CallTrackerActivity extends BaseActivity {
 	
 
 	private final int SETTINGS_INTENT=1;
@@ -39,6 +39,7 @@ public class CallTrackerActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_call_tracker);
 		mActivity = this;
+		setSettingsButton();
 
 		loadIntent(getIntent());
 

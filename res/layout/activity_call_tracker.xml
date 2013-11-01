@@ -6,16 +6,32 @@
     android:orientation="vertical"
     tools:context=".CallTrackerActivity" >
 
-    <TextView
-        android:id="@+id/textView3"
+    <FrameLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/header_bg_color"
-        android:padding="10dp"
-        android:text="Numbers List And Details"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/header_font_color"
-        android:textStyle="bold" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/header_bg_color" >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Numbers List And Details"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/header_font_color"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/settingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/settings" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -56,8 +72,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_margin="10dp"
-        android:divider="@drawable/list_divider"
-        android:cacheColorHint="#00000000" >
+        android:cacheColorHint="#00000000"
+        android:divider="@drawable/list_divider" >
     </ListView>
 
 </LinearLayout>

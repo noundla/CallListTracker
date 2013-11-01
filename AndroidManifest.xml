@@ -11,18 +11,18 @@
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
         android:allowClearUserData="false"
-        android:debuggable="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.calltracker.DateSelectionActivity"
+            android:configChanges="orientation|keyboard"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -33,18 +33,22 @@
         </activity>
         <activity
             android:name="CallTrackerActivity"
+            android:configChanges="orientation|keyboard"
             android:screenOrientation="portrait" >
         </activity>
 
         <receiver android:name=".outgoing.OutgoingCallReceiver" >
-            <intent-filter android:priority="1">
+            <intent-filter android:priority="1" >
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" >
                 </action>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="AddSkipNumberActivity"
+            android:configChanges="orientation|keyboard"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
-
-
-
 
 </manifest>

@@ -33,6 +33,7 @@ public class CallTrackerActivity extends BaseActivity {
 	private TextView mTotalUnits;
 
 	private boolean mDisplayZeroMinNos = false;
+	private boolean mDisplayCUGNos = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,7 +98,9 @@ public class CallTrackerActivity extends BaseActivity {
 			if(intent.hasExtra(DateSelectionActivity.EXTRA_DISPLAY_ZERO_MINS)){
 				mDisplayZeroMinNos  = intent.getBooleanExtra(DateSelectionActivity.EXTRA_DISPLAY_ZERO_MINS, false);
 			}
-			
+			if(intent.hasExtra(DateSelectionActivity.EXTRA_DISPLAY_CUG_NOS)){
+				mDisplayCUGNos  = intent.getBooleanExtra(DateSelectionActivity.EXTRA_DISPLAY_CUG_NOS, false);
+			}
 		}
 	}
 
@@ -170,7 +173,7 @@ public class CallTrackerActivity extends BaseActivity {
 		protected CallListDetails doInBackground(Void... params) {
 			try{
 				CallListDBHelper dbHelper = new CallListDBHelper(mActivity);
-				return dbHelper.getCallList(mStartDateInMillis,mEndDateInMillis,mSelectedListType,mDisplayZeroMinNos);
+				return dbHelper.getCallList(mStartDateInMillis,mEndDateInMillis,mSelectedListType,mDisplayZeroMinNos,mDisplayCUGNos);
 			}catch(Exception e){
 				e.printStackTrace();
 			}

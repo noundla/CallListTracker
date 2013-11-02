@@ -17,18 +17,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Skip Numbers"
+            android:text="CUG Numbers"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/header_font_color"
             android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/settingBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/settings" />
     </FrameLayout>
 
     <ListView
@@ -62,7 +54,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Number:"
+            android:text="Add CUG Number:"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout

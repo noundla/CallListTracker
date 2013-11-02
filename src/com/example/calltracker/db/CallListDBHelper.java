@@ -116,7 +116,7 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 
 
 
-	public CallListDetails getCallList(long startDate,long endDate, int listType, boolean displayZeroMinNos){
+	public CallListDetails getCallList(long startDate,long endDate, int listType, boolean displayZeroMinNos, boolean displayCUGNos){
 		CallListDetails listDetails = new CallListDetails();
 		ArrayList<CallInfo> callList = new ArrayList<CallInfo>();
 		long totalUnits=0;
@@ -135,7 +135,6 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 					break;
 				case Constants.MOBILE_PHONES:
 
-
 					listTypeStr =" AND ("+
 
 							"(("+CallListTable.phoneNumber+" LIKE \"+919%\" OR "+CallListTable.phoneNumber+" LIKE \"+918%\" OR "+CallListTable.phoneNumber+" LIKE \"+917%\") AND length("+CallListTable.phoneNumber+") = 13 ) OR "+
@@ -143,8 +142,10 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 							"(("+CallListTable.phoneNumber+" LIKE \"09%\" OR "+CallListTable.phoneNumber+" LIKE \"08%\" OR "+CallListTable.phoneNumber+" LIKE \"07%\") AND length("+CallListTable.phoneNumber+") = 11 ) OR "+
 							"(("+CallListTable.phoneNumber+" LIKE \"9%\" OR "+CallListTable.phoneNumber+" LIKE \"8%\" OR "+CallListTable.phoneNumber+" LIKE \"7%\") AND length("+CallListTable.phoneNumber+") = 10 ) "+
 							" ) ";
-
-					listTypeStr = appendSkipNumbersQuery(listTypeStr);
+					
+					if(!displayCUGNos){
+						listTypeStr = appendSkipNumbersQuery(listTypeStr);
+					}
 					break;
 				case Constants.EXCLUDE_ABOVE_2_AND_3:
 					listTypeStr = " AND NOT ( "+CallListTable.phoneNumber+" LIKE \"+9140%\" OR "+
@@ -159,8 +160,13 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 							break;
 				case Constants.ALL:
 					listTypeStr = "";
-					listTypeStr = appendSkipNumbersQuery(listTypeStr);
-					break;	
+					if(!displayCUGNos){
+						listTypeStr = appendSkipNumbersQuery(listTypeStr);
+					}
+					break;
+				case Constants.CUG_NUMBERS:
+					listTypeStr = appendSkipNumbersQuery("", true);
+					break;
 				default:
 					break;
 				}
@@ -209,14 +215,23 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 	}
 	
 	private String appendSkipNumbersQuery(String query){
+		return appendSkipNumbersQuery(query,false);
+	}
+	
+	private String appendSkipNumbersQuery(String query,boolean displayCUGNos){
 		ArrayList<String> skipNumberList = getSkipNumberList(false);
 		if(skipNumberList!=null && skipNumberList.size()>0){
 			StringBuilder skipNumberQuery = new StringBuilder(" AND ( ");
 			for(int i=0;i<skipNumberList.size();i++){
 				String number  = skipNumberList.get(i);
 				if(i==0){
-					//add the "not in" condition at the first item
-					skipNumberQuery.append(CallListTable.phoneNumber+" not in ( ");
+					if(displayCUGNos){
+						//add the "in" condition at the first item to display the cug numbers
+						skipNumberQuery.append(CallListTable.phoneNumber+" in ( ");			
+					}else{
+						//add the "not in" condition at the first item to ignore the cug numbers
+						skipNumberQuery.append(CallListTable.phoneNumber+" not in ( ");						
+					}
 					skipNumberQuery.append("\"+91"+number+"\",\"91"+number+"\" , \"0"+number+"\", \""+number+"\"");
 				}else{
 					skipNumberQuery.append(",\"+91"+number+"\",\"91"+number+"\" , \"0"+number+"\", \""+number+"\"");

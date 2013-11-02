@@ -27,8 +27,8 @@
             android:id="@+id/settingBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp"
             android:src="@drawable/settings" />
     </FrameLayout>
 
@@ -152,12 +152,19 @@
                     android:layout_height="wrap_content"
                     android:text="Exclude 2 &amp; 3 from the all list"
                     android:textColor="@color/content_color" />
+                <RadioButton
+                    android:id="@+id/only_cug_nos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Only CUG numbers"
+                    android:textColor="@color/content_color" />
             </RadioGroup>
 
             <View
                 android:id="@+id/view1"
                 android:layout_width="wrap_content"
                 android:layout_height="2dp"
+                android:layout_marginTop="5dp"
                 android:background="#F7F2E0" />
 
             <CheckBox
@@ -165,6 +172,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Display zero min numbers in List?" />
+            <CheckBox
+                android:id="@+id/include_skip_nos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Display CUG numbers in list?" />
 
             <View
                 android:id="@+id/view1"

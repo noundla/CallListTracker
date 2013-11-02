@@ -15,6 +15,7 @@ public class Constants {
 	public static final int MOBILE_PHONES = 2;
 	public static final int FIXED_PHONES = 3;
 	public static final int EXCLUDE_ABOVE_2_AND_3 = 4;
+	public static final int CUG_NUMBERS = 5;
 	
 	
 	//SHARED preferences

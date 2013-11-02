@@ -32,7 +32,7 @@ public class AddSkipNumberActivity extends BaseActivity implements OnClickListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.skip_number);
 		mActivity = this;
-		setSettingsButton();
+
 		mSkipNumbersListView = (ListView)findViewById(R.id.skip_numbers_listView);
 		mAddNumberBtn = (Button)findViewById(R.id.addBtn);
 		mAddNumberET = (EditText)findViewById(R.id.addNumberEt);

@@ -5,12 +5,13 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
@@ -21,6 +22,7 @@ public class DateSelectionActivity extends BaseActivity implements OnClickListen
 	public static final String EXTRA_END_DATE_IN_MILLIS="EXTRA_END_DATE";
 	public static final String EXTRA_SELECTED_LIST_TYPE="EXTRA_SELECTED_LIST_TYPE";
 	public static final String EXTRA_DISPLAY_ZERO_MINS="EXTRA_DISPLAY_ZERO_MINS";
+	public static final String EXTRA_DISPLAY_CUG_NOS="EXTRA_CUG_NOS";
 	
 	
 	
@@ -38,6 +40,8 @@ public class DateSelectionActivity extends BaseActivity implements OnClickListen
 	private RadioButton mFixedPhonesRB;
 	private RadioButton mExclude2And3RB;
 	private CheckBox mDisplayZeroMinNumbers;
+	private RadioButton mCUGNumbersRB;
+	private CheckBox mDisplayCUGNumbers;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +61,18 @@ public class DateSelectionActivity extends BaseActivity implements OnClickListen
 		mMobilePhonesRB = (RadioButton)findViewById(R.id.mobile_phones);
 		mFixedPhonesRB = (RadioButton)findViewById(R.id.fixed_phones);
 		mExclude2And3RB = (RadioButton)findViewById(R.id.exclude_above_two);
+		mCUGNumbersRB = (RadioButton)findViewById(R.id.only_cug_nos);
 		mDisplayZeroMinNumbers = (CheckBox)findViewById(R.id.display_zero_min_nos);
+		mDisplayCUGNumbers = (CheckBox)findViewById(R.id.include_skip_nos);
 		findViewById(R.id.goBtn).setOnClickListener(this);
-		
+		mCUGNumbersRB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked){
+					mDisplayCUGNumbers.setChecked(true);
+				}
+			}
+		});
 		//check whether start date has been set
 		if(Util.getStringFromSP(mActivity, Constants.SP_START_DATE) == null){
 			Calendar endDate = Calendar.getInstance();
@@ -101,10 +114,13 @@ public class DateSelectionActivity extends BaseActivity implements OnClickListen
 				intent.putExtra(EXTRA_SELECTED_LIST_TYPE, Constants.MOBILE_PHONES);
 			}else if(mFixedPhonesRB.isChecked()){
 				intent.putExtra(EXTRA_SELECTED_LIST_TYPE, Constants.FIXED_PHONES);
+			}else if(mCUGNumbersRB.isChecked()){
+				intent.putExtra(EXTRA_SELECTED_LIST_TYPE, Constants.CUG_NUMBERS);
 			}else{
 				intent.putExtra(EXTRA_SELECTED_LIST_TYPE, Constants.EXCLUDE_ABOVE_2_AND_3);
 			}
 			intent.putExtra(EXTRA_DISPLAY_ZERO_MINS, mDisplayZeroMinNumbers.isChecked());
+			intent.putExtra(EXTRA_DISPLAY_CUG_NOS, mDisplayCUGNumbers.isChecked());
 			
 			startActivity(intent);
 			break;

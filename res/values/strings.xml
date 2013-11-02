@@ -4,5 +4,7 @@
     <string name="app_name">Call List Tracker</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="cug_numbers_title">CUG Numbers</string>
+    <string name="cug_numbers_message">Add, Delete, View the CUG Numbers</string>
 
 </resources>

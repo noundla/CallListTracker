@@ -22,7 +22,7 @@ public class BaseActivity extends FragmentActivity {
 				
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(BaseActivity.this, AddSkipNumberActivity.class);
+					Intent intent = new Intent(BaseActivity.this, SettingsActivity.class);
 					startActivity(intent);
 				}
 			});

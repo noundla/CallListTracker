@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/cug_numbers_title" >
+
+        <PreferenceScreen
+            android:summary="@string/cug_numbers_message"
+            android:title="Update CUG numbers" >
+
+            <intent android:action=".AddSkipNumberActivity" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>

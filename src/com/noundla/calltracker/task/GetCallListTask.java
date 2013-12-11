@@ -55,13 +55,10 @@ public class GetCallListTask extends AsyncTask<Void, Void, ArrayList<CallInfo>>{
 		ArrayList<CallInfo> callList = new ArrayList<CallInfo>();
 		Cursor managedCursor = null;
 		try{
-			String minCallId = Util.getStringFromSP(mActivity, Constants.SP_LAST_CALL_ID);
-			if(minCallId==null || "".equalsIgnoreCase(minCallId)|| "null".equalsIgnoreCase(minCallId)){
-				minCallId = "0";
-			}
+			long lastCallDate = Util.getLongFromSP(mActivity, Constants.SP_LAST_CALL_DATE,0);
 
 
-			managedCursor = mActivity.managedQuery( CallLog.Calls.CONTENT_URI, null, CallLog.Calls.TYPE+" = " + CallLog.Calls.OUTGOING_TYPE + " AND " + CallLog.Calls._ID + " > " + minCallId ,null, null);
+			managedCursor = mActivity.managedQuery( CallLog.Calls.CONTENT_URI, null, CallLog.Calls.TYPE+" = " + CallLog.Calls.OUTGOING_TYPE + " AND " + CallLog.Calls.DATE + " > " + lastCallDate ,null, null);
 			mActivity.stopManagingCursor(managedCursor);
 			int id = managedCursor.getColumnIndex(CallLog.Calls._ID);
 			int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER );

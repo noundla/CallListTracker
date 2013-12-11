@@ -66,6 +66,23 @@ public class CallTrackerActivity extends BaseActivity {
 							
 							@Override
 							public void onComplete(ArrayList<CallInfo> callList) {
+								//dont display the numbers if cug numbers not added for this criteria
+								if(mSelectedListType == Constants.CUG_NUMBERS && mDisplayCUGNos){
+									CallListDBHelper dbHelper = new CallListDBHelper(mActivity);
+									ArrayList<String> list = dbHelper.getSkipNumberList(true);
+									if(list==null || list.size()==0){
+										Util.showAlert(mActivity, "Alert!", "You haven't added any CUG numbers in the list. Please add now.", "Add CUG number", new OnAlertDialogButtonClickListener() {
+											
+											@Override
+											public void onAlertDialogButtonClick() {
+												Intent intent = new Intent(mActivity, AddSkipNumberActivity.class);
+												startActivity(intent);
+												finish();
+											}
+										});
+										return;
+									}
+								}
 								new FetchCalllListTask().execute();
 							}
 						}).execute();
@@ -197,7 +214,7 @@ public class CallTrackerActivity extends BaseActivity {
 		protected void onPostExecute(CallListDetails result) {
 			super.onPostExecute(result);
 			if(result!=null){
-				Util.saveStringInSP(mActivity, Constants.SP_LAST_CALL_ID, result.getLatestCallId()+"");
+				Util.saveLongInSP(mActivity, Constants.SP_LAST_CALL_DATE, result.getLatestCallDate());
 				mTotalUnits.setText(result.getTotalUnits()+"");
 				LogAdapter adapter = new LogAdapter(result.getCallList());
 				mListview.setAdapter(adapter);

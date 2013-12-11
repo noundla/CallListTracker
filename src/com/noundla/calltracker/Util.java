@@ -37,6 +37,30 @@ public class Util {
         editor.putInt(key, value);
         editor.commit();
     }
+    /**
+     * Retrieve Long value from SharedPreference for the given key
+     */
+    public static void saveLongInSP(Context context, String key, long value) {
+        SharedPreferences preferences = context.getSharedPreferences(
+                SHARED_PREFERENCES_NAME, android.content.Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(key, value);
+        editor.commit();
+    }
+    /**
+     * Retrieve long value from SharedPreference for the given key
+     */
+    public static long getLongFromSP(Context _activity, String key) {
+        return getLongFromSP(_activity, key, -1);
+    }
+    /**
+     * Retrieve long value from SharedPreference for the given key
+     */
+    public static long getLongFromSP(Context _activity, String key,long defValue) {
+        SharedPreferences preferences = _activity.getSharedPreferences(
+                SHARED_PREFERENCES_NAME, android.content.Context.MODE_PRIVATE);
+        return preferences.getLong(key, defValue);
+    }
     
     /**
      * Remove key/value pair from SharedPreference for the given key

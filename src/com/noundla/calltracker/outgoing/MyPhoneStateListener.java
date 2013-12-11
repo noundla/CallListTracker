@@ -62,14 +62,11 @@ public class MyPhoneStateListener extends PhoneStateListener {
 	public ArrayList<CallInfo> queryAllCallLog() {
 		ArrayList<CallInfo> result = new ArrayList<CallInfo>();
 		final ContentResolver contentResolver = mContext.getContentResolver();
-		String minCallId = Util.getStringFromSP(mContext, Constants.SP_LAST_CALL_ID);
+		long lastCallDate = Util.getLongFromSP(mContext, Constants.SP_LAST_CALL_DATE,0);
 
-		if(minCallId==null || "".equalsIgnoreCase(minCallId)|| "null".equalsIgnoreCase(minCallId)){
-			minCallId = "0";
-		}
 		Cursor cursor=null;
 		try{
-			cursor = contentResolver.query(CallLog.Calls.CONTENT_URI, null, CallLog.Calls.TYPE+" = " + CallLog.Calls.OUTGOING_TYPE + " AND " + CallLog.Calls._ID + " > " + minCallId ,null, null);
+			cursor = contentResolver.query(CallLog.Calls.CONTENT_URI, null, CallLog.Calls.TYPE+" = " + CallLog.Calls.OUTGOING_TYPE + " AND " + CallLog.Calls.DATE + " > " + lastCallDate ,null, null);
 			int id = cursor.getColumnIndex(CallLog.Calls._ID);
 			int number = cursor.getColumnIndex( CallLog.Calls.NUMBER );
 			int date = cursor.getColumnIndex( CallLog.Calls.DATE);
@@ -95,7 +92,7 @@ public class MyPhoneStateListener extends PhoneStateListener {
 		}
 		return null;
 	}
-
+	
 	private class GetAndInsertCallLogsTask extends AsyncTask<Void, Void, Void>{
 		public GetAndInsertCallLogsTask() {
 
@@ -108,9 +105,9 @@ public class MyPhoneStateListener extends PhoneStateListener {
 				dbHelper.insertBulkCallList(callList1);
 				SQLiteDatabase db = dbHelper.getWritableDatabase();
 				try{
-					String maxId = dbHelper.getMaxIdOfCallLogs(dbHelper.getWritableDatabase());
-					if(maxId!=null){
-						Util.saveStringInSP(mContext, Constants.SP_LAST_CALL_ID, maxId);
+					long lastDate = dbHelper.getMaxDateOfCallList(dbHelper.getWritableDatabase());
+					if(lastDate>0){
+						Util.saveLongInSP(mContext, Constants.SP_LAST_CALL_DATE, lastDate);
 					}
 				}finally{
 					dbHelper.closeDatabase(db);

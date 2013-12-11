@@ -201,14 +201,14 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 				}
 			}
 
-			String maxId = getMaxIdOfCallLogs(db);
-			if(maxId!=null){
-				listDetails.setLatestCallId(maxId);
-			}else{
+			long maxDate = getMaxDateOfCallList(db);
+			if(maxDate!=0){
+				listDetails.setLatestCallDate(maxDate);
+			}/*else{
 				if(callList.size()>0){
-					listDetails.setLatestCallId(callList.get(0).getId()+"");
+					listDetails.setLatestCallDate(callList.get(0).getDate());
 				}
-			}
+			}*/
 		}finally{
 			closeDatabase(db);
 		}
@@ -253,32 +253,32 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 		return query;
 	}
 
-	public String getMaxIdOfCallLogs(SQLiteDatabase db){
+	public long getMaxDateOfCallList(SQLiteDatabase db){
 		//get the max id from the table
 		Cursor maxCursor =null;
 		try{
-			maxCursor = db.rawQuery("SELECT MAX(" + CallListTable.callId + ") FROM " + CallListTable.TABLE_NAME +";", null);
+			maxCursor = db.rawQuery("SELECT MAX(" + CallListTable.date + ") FROM " + CallListTable.TABLE_NAME +";", null);
 			if (maxCursor != null) {
 				if (maxCursor.moveToFirst() && !maxCursor.isNull(0)) {
-					return maxCursor.getString(0);
+					return maxCursor.getLong(0);
 				}else{
-					return null;
+					return 0;
 				}
 			}else{
-				return null;
+				return 0;
 
 			}
 
 		}catch(Exception e){
 			e.printStackTrace();
-			return null;
+			return 0;
 		}finally{
 			if(maxCursor!=null){
 				maxCursor.close();
 			}
 		}
 	}
-
+	
 	public void closeDatabase(SQLiteDatabase db){
 		if(db!=null && db.isOpen()){
 			db.close();

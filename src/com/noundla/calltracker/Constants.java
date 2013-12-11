@@ -19,7 +19,7 @@ public class Constants {
 	
 	
 	//SHARED preferences
-	public static final String SP_LAST_CALL_ID = "LAST_CALL_ID";
+	public static final String SP_LAST_CALL_DATE = "LAST_CALL_DATE";
 	public static final String SP_START_DATE = "START_DATE";
 	
 	//date and time patterns

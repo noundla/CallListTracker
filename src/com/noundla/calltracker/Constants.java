@@ -1,4 +1,4 @@
-package com.example.calltracker;
+package com.noundla.calltracker;
 
 public class Constants {
 	public static final String APP_NAME="CALL LIST TRACKER";

@@ -1,4 +1,4 @@
-package com.example.calltracker.task;
+package com.noundla.calltracker.task;
 
 import java.util.ArrayList;
 
@@ -9,10 +9,10 @@ import android.os.AsyncTask;
 import android.provider.CallLog;
 import android.text.TextUtils;
 
-import com.example.calltracker.CallInfo;
-import com.example.calltracker.Constants;
-import com.example.calltracker.OnCompleteListener;
-import com.example.calltracker.Util;
+import com.noundla.calltracker.CallInfo;
+import com.noundla.calltracker.Constants;
+import com.noundla.calltracker.OnCompleteListener;
+import com.noundla.calltracker.Util;
 
 public class GetCallListTask extends AsyncTask<Void, Void, ArrayList<CallInfo>>{
 	private ProgressDialog mDialog;

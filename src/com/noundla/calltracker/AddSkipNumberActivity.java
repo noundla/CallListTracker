@@ -1,8 +1,6 @@
-package com.example.calltracker;
+package com.noundla.calltracker;
 
 import java.util.ArrayList;
-
-import com.example.calltracker.db.CallListDBHelper;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -11,13 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.noundla.calltracker.db.CallListDBHelper;
 
 public class AddSkipNumberActivity extends BaseActivity implements OnClickListener {
 	private Activity mActivity;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.calltracker"
+    package="com.noundla.calltracker"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -21,7 +21,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.calltracker.DateSelectionActivity"
+            android:name="com.noundla.calltracker.DateSelectionActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
@@ -32,12 +32,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="CallTrackerActivity"
+            android:name="com.noundla.calltracker.CallTrackerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
 
-        <receiver android:name=".outgoing.OutgoingCallReceiver" >
+        <receiver android:name="com.noundla.calltracker.outgoing.OutgoingCallReceiver" >
             <intent-filter android:priority="1" >
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" >
                 </action>
@@ -45,7 +45,7 @@
         </receiver>
 
         <activity
-            android:name="AddSkipNumberActivity"
+            android:name="com.noundla.calltracker.AddSkipNumberActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="SettingsActivity"
+            android:name="com.noundla.calltracker.SettingsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>

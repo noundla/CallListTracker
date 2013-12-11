@@ -1,4 +1,4 @@
-package com.example.calltracker;
+package com.noundla.calltracker;
 
 import java.util.ArrayList;
 
@@ -15,9 +15,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.calltracker.db.CallListDBHelper;
-import com.example.calltracker.task.GetCallListTask;
-import com.example.calltracker.task.InsertCalllListTask;
+import com.noundla.calltracker.db.CallListDBHelper;
+import com.noundla.calltracker.task.GetCallListTask;
+import com.noundla.calltracker.task.InsertCalllListTask;
 
 public class CallTrackerActivity extends BaseActivity {
 	

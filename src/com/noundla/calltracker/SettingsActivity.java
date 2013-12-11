@@ -1,4 +1,4 @@
-package com.example.calltracker;
+package com.noundla.calltracker;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

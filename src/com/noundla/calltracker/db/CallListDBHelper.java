@@ -1,4 +1,4 @@
-package com.example.calltracker.db;
+package com.noundla.calltracker.db;
 
 import java.util.ArrayList;
 
@@ -11,9 +11,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.provider.ContactsContract.PhoneLookup;
 
-import com.example.calltracker.CallInfo;
-import com.example.calltracker.CallListDetails;
-import com.example.calltracker.Constants;
+import com.noundla.calltracker.CallInfo;
+import com.noundla.calltracker.CallListDetails;
+import com.noundla.calltracker.Constants;
 
 
 public class CallListDBHelper extends SQLiteOpenHelper{

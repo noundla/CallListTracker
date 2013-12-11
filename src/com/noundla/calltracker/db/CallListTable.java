@@ -1,4 +1,4 @@
-package com.example.calltracker.db;
+package com.noundla.calltracker.db;
 
 public class CallListTable {
 	public static final String TABLE_NAME = "CALL_LIST";

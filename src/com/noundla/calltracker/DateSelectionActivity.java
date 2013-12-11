@@ -1,4 +1,4 @@
-package com.example.calltracker;
+package com.noundla.calltracker;
 
 import java.util.Calendar;
 
@@ -15,7 +15,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import com.example.calltracker.DateDialogFragment.OnDateSetListener;
+import com.noundla.calltracker.DateDialogFragment.OnDateSetListener;
 
 public class DateSelectionActivity extends BaseActivity implements OnClickListener{
 	public static final String EXTRA_START_DATE_IN_MILLIS="EXTRA_START_DATE";

@@ -11,7 +11,7 @@ public class OutgoingCallReceiver extends BroadcastReceiver {
 	TelephonyManager telephony;
 
 	public void onReceive(Context context, Intent intent) {
-		Toast.makeText(context, "ONRECIEVE CALLED", Toast.LENGTH_LONG).show();
+//		Toast.makeText(context, "ONRECIEVE CALLED", Toast.LENGTH_LONG).show();
 		MyPhoneStateListener phoneListener = new MyPhoneStateListener(context);
 		telephony = (TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE);

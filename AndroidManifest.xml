@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.calltracker.DateSelectionActivity"
-            android:configChanges="orientation|keyboard"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name="CallTrackerActivity"
-            android:configChanges="orientation|keyboard"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
 
@@ -46,7 +46,7 @@
 
         <activity
             android:name="AddSkipNumberActivity"
-            android:configChanges="orientation|keyboard"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter>
@@ -57,7 +57,7 @@
         </activity>
         <activity
             android:name="SettingsActivity"
-            android:configChanges="orientation|keyboard"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
     </application>

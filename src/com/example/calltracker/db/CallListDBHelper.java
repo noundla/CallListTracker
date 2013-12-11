@@ -8,17 +8,19 @@ import android.database.Cursor;
 import android.database.DatabaseUtils.InsertHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.provider.ContactsContract.PhoneLookup;
 
 import com.example.calltracker.CallInfo;
 import com.example.calltracker.CallListDetails;
 import com.example.calltracker.Constants;
-import com.example.calltracker.SkipNumberBean;
 
 
 public class CallListDBHelper extends SQLiteOpenHelper{
-
+	private Context mContext;
 	public CallListDBHelper(Context context) {
 		super(context, Constants.DB_NAME, null, Constants.DB_VERSION);
+		mContext = context;
 	}
 
 
@@ -185,7 +187,9 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 						callInfo.setNumber(cursor.getString(number));
 						callInfo.setDate(cursor.getLong(date));
 						callInfo.setDurationInMins(cursor.getInt( duration ));
+						callInfo.setName(getContactNameIfAvailable(callInfo.getNumber()));
 						callList.add(callInfo);
+						
 						totalUnits=totalUnits+callInfo.getDurationInMins();
 					} while (cursor.moveToNext());
 				}
@@ -351,5 +355,31 @@ public class CallListDBHelper extends SQLiteOpenHelper{
 			closeDatabase(db);
 		}
 		return deleteStatus;
+	}
+	/**Fetch the contact name for the given number. 
+	 * @param number Phone number to get the contact name
+	 * @return Returns the contact name for the number if available. Otherwise just returns the given number itself*/
+	private String getContactNameIfAvailable(String number) { 
+		String result = null;
+		if(number!=null && !"".equalsIgnoreCase(number)){
+			Cursor cursor=null;
+			try{
+				Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+				cursor= mContext.getContentResolver().query(uri, new String[]{PhoneLookup.DISPLAY_NAME},null,null,null);
+				if (cursor.moveToFirst()){
+					result = cursor.getString(cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME));
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally{
+				if(cursor!=null){
+					cursor.close();
+				}
+			}
+		}
+		if(result==null || "".equalsIgnoreCase(result)){
+			result = number;
+		}
+		return result;
 	}
 }

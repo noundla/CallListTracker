@@ -46,7 +46,16 @@ public class CallTrackerActivity extends BaseActivity {
 
 		mListview = (ListView)findViewById(R.id.listView1);
 		mTotalUnits = (TextView)findViewById(R.id.unitsTV);
-
+		loadCallList();
+		
+	}
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		loadCallList();
+	}
+	
+	private void loadCallList(){
 		if(mStartDateInMillis>0 && mEndDateInMillis>0){
 			if(mSelectedListType>0){
 				new GetCallListTask(mActivity, new OnCompleteListener() {
@@ -144,8 +153,11 @@ public class CallTrackerActivity extends BaseActivity {
 			TextView number = (TextView)convertView.findViewById(R.id.number);
 			TextView duration = (TextView)convertView.findViewById(R.id.duration);
 			TextView date = (TextView)convertView.findViewById(R.id.date);
-
-			number.setText(callInfo.getNumber());
+			if(callInfo.getName()!=null){
+				number.setText(callInfo.getName());
+			}else{
+				number.setText(callInfo.getNumber());
+			}
 			duration.setText(callInfo.getDurationInMins()+" Min(s)");
 
 			date.setText(Util.getStringFromMillis(Constants.CALL_DATE_FORMAT, callInfo.getDate()));
